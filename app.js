@@ -72,6 +72,7 @@ unitInput.addEventListener(
 
             priceInput.placeholder =
                 "e.g. 20";
+
         }
 
     }
@@ -196,6 +197,7 @@ function addItem() {
 
         amount =
             quantity * price;
+
     }
 
 
@@ -226,7 +228,7 @@ function addItem() {
     displayBill();
 
 
-    // Clear fields
+    // Clear inputs
 
     vegetableNameInput.value = "";
 
@@ -236,6 +238,7 @@ function addItem() {
 
 
     vegetableNameInput.focus();
+
 }
 
 
@@ -255,6 +258,7 @@ function displayBill() {
                 No items added yet
             </div>
         `;
+
     }
 
 
@@ -331,6 +335,7 @@ function displayBill() {
 
                 priceText =
                     `₹${item.price}/${unitText}`;
+
             }
 
 
@@ -338,12 +343,16 @@ function displayBill() {
                 `${item.quantity} ${unitText} × ${priceText}`;
 
 
-            details.appendChild(name);
+            details.appendChild(
+                name
+            );
 
-            details.appendChild(quantity);
+            details.appendChild(
+                quantity
+            );
 
 
-            // Amount
+            // Amount + Delete
 
             const amountSection =
                 document.createElement("div");
@@ -357,7 +366,8 @@ function displayBill() {
 
                 <button
                     class="delete-btn"
-                    onclick="deleteItem(${index})">
+                    onclick="deleteItem(${index})"
+                    type="button">
 
                     Delete
 
@@ -366,7 +376,9 @@ function displayBill() {
             `;
 
 
-            billItem.appendChild(details);
+            billItem.appendChild(
+                details
+            );
 
             billItem.appendChild(
                 amountSection
@@ -382,7 +394,7 @@ function displayBill() {
 
 
     // ==============================
-    // DELIVERY CHARGE
+    // DELIVERY
     // ==============================
 
     let delivery =
@@ -397,11 +409,12 @@ function displayBill() {
     ) {
 
         delivery = 0;
+
     }
 
 
     // ==============================
-    // FINAL TOTAL
+    // TOTAL
     // ==============================
 
     const total =
@@ -422,11 +435,12 @@ function displayBill() {
                 ? "item"
                 : "items"
         }`;
+
 }
 
 
 // ==============================
-// GET DISPLAY UNIT
+// DISPLAY UNIT
 // ==============================
 
 function getDisplayUnit(unit) {
@@ -456,7 +470,9 @@ function getDisplayUnit(unit) {
 
         default:
             return unit;
+
     }
+
 }
 
 
@@ -472,11 +488,12 @@ function deleteItem(index) {
     );
 
     displayBill();
+
 }
 
 
 // ==============================
-// DELIVERY CHARGE CHANGE
+// DELIVERY CHANGE
 // ==============================
 
 deliveryChargeInput.addEventListener(
@@ -499,6 +516,7 @@ clearBtn.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -515,6 +533,7 @@ clearBtn.addEventListener(
             deliveryChargeInput.value = "";
 
             displayBill();
+
         }
 
     }
@@ -522,166 +541,763 @@ clearBtn.addEventListener(
 
 
 // ==============================
-// WHATSAPP
+// SHARE BILL IMAGE
 // ==============================
 
 whatsappBtn.addEventListener(
     "click",
-    shareOnWhatsApp
+    shareBillImage
 );
 
 
 // ==============================
-// SHARE ON WHATSAPP
+// GENERATE BILL IMAGE
 // ==============================
 
-function shareOnWhatsApp() {
+async function shareBillImage() {
 
     if (billItems.length === 0) {
-        alert("Please add at least one item.");
+
+        alert(
+            "Please add at least one item."
+        );
+
         return;
-    }
 
-    // ==============================
-    // DATE
-    // ==============================
-
-    const today = new Date();
-
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const year = today.getFullYear();
-
-    const currentDate = `${day}-${month}-${year}`;
-
-
-    // ==============================
-    // SUBTOTAL
-    // ==============================
-
-    const subtotal = billItems.reduce(
-        (sum, item) => sum + item.amount,
-        0
-    );
-
-
-    // ==============================
-    // DELIVERY CHARGE
-    // ==============================
-
-    let delivery = parseFloat(
-        deliveryChargeInput.value
-    );
-
-    if (isNaN(delivery) || delivery < 0) {
-        delivery = 0;
     }
 
 
     // ==============================
-    // FINAL TOTAL
+    // BUTTON STATE
     // ==============================
 
-    const total = subtotal + delivery;
+    const originalButtonText =
+        whatsappBtn.textContent;
 
 
-    // ==============================
-    // START MESSAGE
-    // ==============================
+    whatsappBtn.disabled = true;
 
-    let message = "```\n";
-
-    message += "MAHESH FRUITS AND VEGETABLES\n";
-    message += "VEGETABLE BILL\n";
-    message += `Date: ${currentDate}\n`;
-
-    message += "--------------------------------\n";
+    whatsappBtn.textContent =
+        "Generating Bill...";
 
 
-    // ==============================
-    // TABLE HEADER
-    // ==============================
+    try {
 
-    message += "Item       Qty       Amount\n";
-    message += "--------------------------------\n";
+        // ==============================
+        // DATE
+        // ==============================
 
-
-    // ==============================
-    // ITEMS
-    // ==============================
-
-    billItems.forEach(item => {
-
-        const unitText = getWhatsAppUnit(item.unit);
-
-        // Keep item name short for phone screens
-        const itemName = item.name
-            .substring(0, 9)
-            .padEnd(10);
-
-        const quantityText = `${item.quantity} ${unitText}`
-            .padEnd(9);
-
-        const amountText = `₹${item.amount.toFixed(2)}`;
-
-        message +=
-            `${itemName}${quantityText}${amountText}\n`;
-    });
+        const today =
+            new Date();
 
 
-    // ==============================
-    // SUMMARY
-    // ==============================
-
-    message += "--------------------------------\n";
-
-    message +=
-        `Subtotal                 ₹${subtotal.toFixed(2)}\n`;
+        const day =
+            String(
+                today.getDate()
+            ).padStart(2, "0");
 
 
-    if (delivery > 0) {
+        const month =
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
 
-        message +=
-            `Delivery                 ₹${delivery.toFixed(2)}\n`;
+
+        const year =
+            today.getFullYear();
+
+
+        const currentDate =
+            `${day}-${month}-${year}`;
+
+
+        // ==============================
+        // SUBTOTAL
+        // ==============================
+
+        const subtotal =
+            billItems.reduce(
+                (sum, item) =>
+                    sum + item.amount,
+                0
+            );
+
+
+        // ==============================
+        // DELIVERY
+        // ==============================
+
+        let delivery =
+            parseFloat(
+                deliveryChargeInput.value
+            );
+
+
+        if (
+            isNaN(delivery) ||
+            delivery < 0
+        ) {
+
+            delivery = 0;
+
+        }
+
+
+        // ==============================
+        // TOTAL
+        // ==============================
+
+        const total =
+            subtotal + delivery;
+
+
+        // ==============================
+        // CANVAS
+        // ==============================
+
+        const canvas =
+            document.createElement(
+                "canvas"
+            );
+
+
+        const ctx =
+            canvas.getContext(
+                "2d"
+            );
+
+
+        const width = 900;
+
+        const headerHeight = 210;
+
+        const tableHeaderHeight = 70;
+
+        const itemRowHeight = 70;
+
+        const summaryHeight =
+            delivery > 0
+                ? 270
+                : 210;
+
+        const footerHeight = 100;
+
+
+        const height =
+            headerHeight +
+            tableHeaderHeight +
+            (
+                billItems.length *
+                itemRowHeight
+            ) +
+            summaryHeight +
+            footerHeight;
+
+
+        canvas.width =
+            width;
+
+        canvas.height =
+            height;
+
+
+        // ==============================
+        // WHITE BACKGROUND
+        // ==============================
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        // ==============================
+        // HEADER
+        // ==============================
+
+        ctx.fillStyle =
+            "#198754";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            headerHeight
+        );
+
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.font =
+            "bold 38px Arial";
+
+
+        ctx.fillText(
+            "MAHESH FRUITS AND VEGETABLES",
+            width / 2,
+            65
+        );
+
+
+        ctx.font =
+            "bold 30px Arial";
+
+
+        ctx.fillText(
+            "VEGETABLE BILL",
+            width / 2,
+            115
+        );
+
+
+        ctx.font =
+            "22px Arial";
+
+
+        ctx.fillText(
+            `Date: ${currentDate}`,
+            width / 2,
+            165
+        );
+
+
+        // ==============================
+        // TABLE HEADER
+        // ==============================
+
+        let y =
+            headerHeight;
+
+
+        ctx.fillStyle =
+            "#f1f5f3";
+
+
+        ctx.fillRect(
+            0,
+            y,
+            width,
+            tableHeaderHeight
+        );
+
+
+        ctx.fillStyle =
+            "#222222";
+
+
+        ctx.font =
+            "bold 23px Arial";
+
+
+        ctx.textAlign =
+            "left";
+
+
+        ctx.fillText(
+            "ITEM",
+            55,
+            y + 45
+        );
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.fillText(
+            "QTY",
+            500,
+            y + 45
+        );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillText(
+            "AMOUNT",
+            845,
+            y + 45
+        );
+
+
+        // Header bottom line
+
+        ctx.strokeStyle =
+            "#cccccc";
+
+
+        ctx.lineWidth = 2;
+
+
+        ctx.beginPath();
+
+
+        ctx.moveTo(
+            40,
+            y + tableHeaderHeight
+        );
+
+
+        ctx.lineTo(
+            width - 40,
+            y + tableHeaderHeight
+        );
+
+
+        ctx.stroke();
+
+
+        y +=
+            tableHeaderHeight;
+
+
+        // ==============================
+        // BILL ITEMS
+        // ==============================
+
+        billItems.forEach(
+            (item, index) => {
+
+                // Alternate row
+
+                if (
+                    index % 2 === 0
+                ) {
+
+                    ctx.fillStyle =
+                        "#fafafa";
+
+
+                    ctx.fillRect(
+                        0,
+                        y,
+                        width,
+                        itemRowHeight
+                    );
+
+                }
+
+
+                // Item
+
+                ctx.fillStyle =
+                    "#222222";
+
+
+                ctx.font =
+                    "23px Arial";
+
+
+                ctx.textAlign =
+                    "left";
+
+
+                let itemName =
+                    item.name;
+
+
+                if (
+                    itemName.length > 24
+                ) {
+
+                    itemName =
+                        itemName.substring(
+                            0,
+                            24
+                        ) + "...";
+
+                }
+
+
+                ctx.fillText(
+                    itemName,
+                    55,
+                    y + 44
+                );
+
+
+                // Quantity
+
+                ctx.textAlign =
+                    "center";
+
+
+                const unitText =
+                    getImageUnit(
+                        item.unit
+                    );
+
+
+                const quantityText =
+                    `${item.quantity} ${unitText}`;
+
+
+                ctx.fillText(
+                    quantityText,
+                    500,
+                    y + 44
+                );
+
+
+                // Amount
+
+                ctx.textAlign =
+                    "right";
+
+
+                ctx.font =
+                    "bold 23px Arial";
+
+
+                ctx.fillText(
+                    `₹${item.amount.toFixed(2)}`,
+                    845,
+                    y + 44
+                );
+
+
+                // Row line
+
+                ctx.strokeStyle =
+                    "#e5e5e5";
+
+
+                ctx.lineWidth = 1;
+
+
+                ctx.beginPath();
+
+
+                ctx.moveTo(
+                    40,
+                    y + itemRowHeight
+                );
+
+
+                ctx.lineTo(
+                    width - 40,
+                    y + itemRowHeight
+                );
+
+
+                ctx.stroke();
+
+
+                y +=
+                    itemRowHeight;
+
+            }
+        );
+
+
+        // ==============================
+        // SUMMARY
+        // ==============================
+
+        y += 25;
+
+
+        ctx.fillStyle =
+            "#444444";
+
+
+        ctx.font =
+            "24px Arial";
+
+
+        ctx.textAlign =
+            "left";
+
+
+        ctx.fillText(
+            "Subtotal",
+            55,
+            y + 35
+        );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillText(
+            `₹${subtotal.toFixed(2)}`,
+            845,
+            y + 35
+        );
+
+
+        y += 55;
+
+
+        // Delivery
+
+        if (delivery > 0) {
+
+            ctx.textAlign =
+                "left";
+
+
+            ctx.fillText(
+                "Delivery Charge",
+                55,
+                y + 35
+            );
+
+
+            ctx.textAlign =
+                "right";
+
+
+            ctx.fillText(
+                `₹${delivery.toFixed(2)}`,
+                845,
+                y + 35
+            );
+
+
+            y += 55;
+
+        }
+
+
+        // ==============================
+        // TOTAL BOX
+        // ==============================
+
+        ctx.fillStyle =
+            "#198754";
+
+
+        ctx.fillRect(
+            40,
+            y + 15,
+            width - 80,
+            75
+        );
+
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        ctx.font =
+            "bold 30px Arial";
+
+
+        ctx.textAlign =
+            "left";
+
+
+        ctx.fillText(
+            "TOTAL",
+            70,
+            y + 63
+        );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillText(
+            `₹${total.toFixed(2)}`,
+            830,
+            y + 63
+        );
+
+
+        // ==============================
+        // FOOTER
+        // ==============================
+
+        y += 125;
+
+
+        ctx.fillStyle =
+            "#666666";
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.font =
+            "22px Arial";
+
+
+        ctx.fillText(
+            "Thank you!",
+            width / 2,
+            y
+        );
+
+
+        // ==============================
+        // CREATE PNG
+        // ==============================
+
+        const blob =
+            await canvasToBlob(
+                canvas
+            );
+
+
+        if (!blob) {
+
+            throw new Error(
+                "Unable to create bill image."
+            );
+
+        }
+
+
+        // ==============================
+        // CREATE FILE
+        // ==============================
+
+        const file =
+            new File(
+                [blob],
+                "Mahesh-Vegetable-Bill.png",
+                {
+                    type: "image/png"
+                }
+            );
+
+
+        // ==============================
+        // ANDROID / BROWSER SHARE
+        // ==============================
+
+        if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({
+                files: [file]
+            })
+        ) {
+
+            await navigator.share({
+
+                title:
+                    "Mahesh Fruits and Vegetables",
+
+                text:
+                    "Vegetable Bill",
+
+                files: [file]
+
+            });
+
+        } else {
+
+            // ==============================
+            // FALLBACK
+            // ==============================
+
+            const imageURL =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const newWindow =
+                window.open(
+                    imageURL,
+                    "_blank"
+                );
+
+
+            if (!newWindow) {
+
+                throw new Error(
+                    "Please allow pop-ups to view the bill image."
+                );
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Bill sharing error:",
+            error
+        );
+
+
+        // Don't show an error when
+        // user simply cancelled sharing
+
+        if (
+            error.name !==
+            "AbortError"
+        ) {
+
+            alert(
+                "Unable to share the bill image. Please try again."
+            );
+
+        }
+
+    } finally {
+
+        whatsappBtn.disabled =
+            false;
+
+        whatsappBtn.textContent =
+            "📷 Share Bill Image";
+
     }
 
-
-    message += "--------------------------------\n";
-
-    message +=
-        `TOTAL                    ₹${total.toFixed(2)}\n`;
-
-    message += "--------------------------------\n\n";
-
-    message += "Thank you!";
-
-
-    // ==============================
-    // END CODE BLOCK
-    // ==============================
-
-    message += "\n```";
-
-
-    // ==============================
-    // OPEN WHATSAPP
-    // ==============================
-
-    const whatsappURL =
-        `https://wa.me/?text=${encodeURIComponent(message)}`;
-
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
 }
 
 
 // ==============================
-// WHATSAPP UNIT
+// CANVAS TO BLOB
 // ==============================
 
-function getWhatsAppUnit(unit) {
+function canvasToBlob(canvas) {
+
+    return new Promise(
+        resolve => {
+
+            canvas.toBlob(
+                blob => {
+
+                    resolve(blob);
+
+                },
+                "image/png"
+            );
+
+        }
+    );
+
+}
+
+
+// ==============================
+// IMAGE UNIT
+// ==============================
+
+function getImageUnit(unit) {
 
     switch (unit) {
 
@@ -692,13 +1308,13 @@ function getWhatsAppUnit(unit) {
             return "g";
 
         case "bunch":
-            return "Bun";
+            return "Bunch";
 
         case "piece":
             return "Pc";
 
         case "bottle":
-            return "Bot";
+            return "Bottle";
 
         case "packet":
             return "Pkt";
@@ -708,5 +1324,14 @@ function getWhatsAppUnit(unit) {
 
         default:
             return unit;
+
     }
+
 }
+
+
+// ==============================
+// INITIAL DISPLAY
+// ==============================
+
+displayBill();

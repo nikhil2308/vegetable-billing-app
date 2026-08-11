@@ -4,173 +4,550 @@
     padding: 0;
 }
 
+
 body {
+
     font-family: Arial, sans-serif;
+
     background: #f3f4f6;
+
     min-height: 100vh;
-    padding: 20px;
+
+    padding: 12px;
+
 }
+
 
 .app {
-    max-width: 500px;
+
+    width: 100%;
+
+    max-width: 520px;
+
     margin: auto;
+
     background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.08);
+
 }
 
-h1 {
+
+/* =========================
+   SHOP HEADER
+========================= */
+
+.shop-header {
+
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
+
+    margin-bottom: 20px;
+
 }
 
-.form-section {
-    margin-bottom: 25px;
+
+.shop-header h1 {
+
+    font-size: 22px;
+
+    line-height: 1.25;
+
+    color: #198754;
+
 }
+
+
+.shop-header p {
+
+    margin-top: 5px;
+
+    color: #666;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================
+   FORM
+========================= */
 
 label {
+
     display: block;
+
     font-weight: bold;
+
+    font-size: 14px;
+
+    margin-top: 14px;
+
     margin-bottom: 7px;
-    margin-top: 15px;
+
 }
+
+
+.optional {
+
+    font-weight: normal;
+
+    color: #888;
+
+    font-size: 12px;
+
+}
+
 
 input,
 select {
+
     width: 100%;
-    height: 48px;
+
+    height: 46px;
+
     padding: 10px;
+
     border: 1px solid #ccc;
+
     border-radius: 8px;
-    font-size: 17px;
+
+    font-size: 16px;
+
+    background: white;
+
 }
+
+
+input:focus,
+select:focus {
+
+    outline: none;
+
+    border-color: #198754;
+
+    box-shadow:
+        0 0 0 2px rgba(
+            25,
+            135,
+            84,
+            0.08
+        );
+
+}
+
 
 .quantity-row {
-    display: flex;
-    gap: 10px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        115px;
+
+    gap: 8px;
+
 }
 
-.quantity-row input {
-    flex: 1;
-}
 
-.quantity-row select {
-    width: 120px;
-}
+/* =========================
+   BUTTONS
+========================= */
 
 button {
+
     border: none;
+
     border-radius: 8px;
-    height: 48px;
+
+    min-height: 46px;
+
     font-size: 16px;
+
     font-weight: bold;
+
     cursor: pointer;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
 }
+
 
 .add-btn {
+
     width: 100%;
-    margin-top: 20px;
+
+    margin-top: 18px;
+
     background: #198754;
+
     color: white;
+
 }
+
+
+.add-btn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+/* =========================
+   BILL
+========================= */
 
 .bill-section {
+
+    margin-top: 22px;
+
     border-top: 1px solid #ddd;
-    padding-top: 20px;
+
+    padding-top: 16px;
+
 }
 
-h2 {
-    margin-bottom: 15px;
+
+.bill-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
 }
+
+
+.bill-title h2 {
+
+    font-size: 19px;
+
+}
+
+
+#itemCount {
+
+    font-size: 13px;
+
+    color: #666;
+
+}
+
+
+/* =========================
+   BILL ITEM
+========================= */
 
 .bill-item {
-    display: flex;
-    justify-content: space-between;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+    gap: 8px;
+
     align-items: center;
+
     padding: 12px 0;
+
     border-bottom: 1px solid #eee;
+
 }
+
 
 .item-details {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+
+    min-width: 0;
+
 }
+
 
 .item-name {
-    font-weight: bold;
+
+    display: block;
+
     font-size: 16px;
+
+    font-weight: bold;
+
+    overflow-wrap: anywhere;
+
 }
+
 
 .item-quantity {
+
+    display: block;
+
+    margin-top: 4px;
+
     color: #666;
-    font-size: 14px;
+
+    font-size: 13px;
+
+    overflow-wrap: anywhere;
+
 }
+
 
 .item-amount {
+
+    display: block;
+
     font-weight: bold;
+
+    font-size: 16px;
+
+    white-space: nowrap;
+
+    text-align: right;
+
 }
+
 
 .delete-btn {
+
     background: #dc3545;
+
     color: white;
-    height: 32px;
-    padding: 0 10px;
-    margin-left: 10px;
-    font-size: 13px;
+
+    height: 30px;
+
+    min-height: 30px;
+
+    padding: 0 8px;
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
 }
+
+
+/* =========================
+   EMPTY BILL
+========================= */
+
+.empty-bill {
+
+    text-align: center;
+
+    padding: 20px 10px;
+
+    color: #888;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 0 8px;
+
+    font-size: 16px;
+
+}
+
+
+.delivery-section {
+
+    margin-top: 4px;
+
+}
+
+
+.delivery-input {
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+}
+
+
+.delivery-input span {
+
+    padding-left: 12px;
+
+    font-size: 16px;
+
+    color: #555;
+
+}
+
+
+.delivery-input input {
+
+    border: none;
+
+    border-radius: 0;
+
+}
+
+
+.delivery-input input:focus {
+
+    border: none;
+
+    box-shadow: none;
+
+}
+
+
+/* =========================
+   TOTAL
+========================= */
 
 .total-section {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
-    font-size: 22px;
-    padding: 20px 0;
+
+    margin-top: 15px;
+
+    padding: 15px 0;
+
+    border-top: 2px solid #198754;
+
+    font-size: 21px;
+
 }
+
 
 .total-section strong {
+
     font-size: 24px;
+
+    color: #198754;
+
 }
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
 
 .action-buttons {
-    display: flex;
-    gap: 10px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.7fr;
+
+    gap: 8px;
+
+    margin-top: 10px;
+
 }
+
 
 .clear-btn {
-    flex: 1;
+
     background: #6c757d;
+
     color: white;
+
 }
+
 
 .whatsapp-btn {
-    flex: 2;
-    background: #25D366;
+
+    background: #198754;
+
     color: white;
+
 }
 
-@media (max-width: 400px) {
+
+.whatsapp-btn:active,
+.clear-btn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 360px) {
 
     body {
-        padding: 10px;
+
+        padding: 7px;
+
     }
+
 
     .app {
-        padding: 15px;
+
+        padding: 12px;
+
+        border-radius: 10px;
+
     }
 
-    h1 {
-        font-size: 23px;
+
+    .shop-header h1 {
+
+        font-size: 19px;
+
     }
+
+
+    .quantity-row {
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            100px;
+
+    }
+
 
     .action-buttons {
-        flex-direction: column;
+
+        grid-template-columns: 1fr;
+
     }
+
 
     .clear-btn,
     .whatsapp-btn {
+
         width: 100%;
+
     }
+
 }

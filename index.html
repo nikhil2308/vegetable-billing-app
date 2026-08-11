@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -9,33 +10,71 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Vegetable Bill</title>
+    <meta
+        name="theme-color"
+        content="#198754"
+    >
 
-    <link rel="stylesheet" href="style.css">
+    <title>Mahesh Fruits and Vegetables</title>
 
-    <link rel="manifest" href="manifest.json">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
-    <meta name="theme-color" content="#198754">
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
 
 </head>
+
+
 <body>
 
     <div class="app">
 
-        <h1>🥬 Vegetable Bill</h1>
+        <!-- =========================
+             SHOP HEADER
+        ========================== -->
+
+        <div class="shop-header">
+
+            <h1>
+                Mahesh Fruits and Vegetables
+            </h1>
+
+            <p>
+                Vegetable Bill
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ADD ITEM FORM
+        ========================== -->
 
         <div class="form-section">
 
-            <label>Vegetable Name</label>
+            <label>
+                Vegetable / Item Name
+            </label>
+
             <input
                 type="text"
                 id="vegetableName"
                 placeholder="e.g. Tomato"
+                autocomplete="off"
             >
 
-            <label>Quantity</label>
+
+            <label>
+                Quantity
+            </label>
 
             <div class="quantity-row">
+
                 <input
                     type="number"
                     id="quantity"
@@ -44,18 +83,46 @@
                     step="0.01"
                 >
 
-            <select id="unit">
-            <option value="kg">KG</option>
-            <option value="gram">Grams</option>
-            <option value="bunch">Bunch</option>
-            <option value="piece">Piece</option>
-            <option value="bottle">Bottle</option>
-            <option value="packet">Packet</option>
-            <option value="box">Box</option>
-        </select>
+                <select id="unit">
+
+                    <option value="kg">
+                        KG
+                    </option>
+
+                    <option value="gram">
+                        Grams
+                    </option>
+
+                    <option value="bunch">
+                        Bunch
+                    </option>
+
+                    <option value="piece">
+                        Piece
+                    </option>
+
+                    <option value="bottle">
+                        Bottle
+                    </option>
+
+                    <option value="packet">
+                        Packet
+                    </option>
+
+                    <option value="box">
+                        Box
+                    </option>
+
+                </select>
+
             </div>
 
-            <label id="priceLabel">Price per KG</label>
+
+            <!-- PRICE -->
+
+            <label id="priceLabel">
+                Price per KG
+            </label>
 
             <input
                 type="number"
@@ -65,76 +132,195 @@
                 step="0.01"
             >
 
-            <button id="addItemBtn" class="add-btn">
+
+            <button
+                id="addItemBtn"
+                class="add-btn"
+                type="button"
+            >
                 + Add Item
             </button>
 
         </div>
 
 
+        <!-- =========================
+             CURRENT BILL
+        ========================== -->
+
         <div class="bill-section">
 
-            <h2>Bill</h2>
+            <div class="bill-title">
 
-            <div id="billItems">
-                <!-- Items will appear here -->
+                <h2>
+                    Current Bill
+                </h2>
+
+                <span id="itemCount">
+                    0 items
+                </span>
+
             </div>
 
+
+            <!-- BILL ITEMS -->
+
+            <div id="billItems">
+
+                <div class="empty-bill">
+                    No items added yet
+                </div>
+
+            </div>
+
+
+            <!-- SUBTOTAL -->
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <strong>
+                    ₹<span id="subtotalAmount">0.00</span>
+                </strong>
+
+            </div>
+
+
+            <!-- =========================
+                 DELIVERY CHARGE
+            ========================== -->
+
+            <div class="delivery-section">
+
+                <label for="deliveryCharge">
+                    Delivery Charge
+                    <span class="optional">
+                        (Optional)
+                    </span>
+                </label>
+
+                <div class="delivery-input">
+
+                    <span>
+                        ₹
+                    </span>
+
+                    <input
+                        type="number"
+                        id="deliveryCharge"
+                        placeholder="0"
+                        min="0"
+                        step="0.01"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 TOTAL
+            ========================== -->
+
             <div class="total-section">
-                <span>Total</span>
-                <strong>₹<span id="totalAmount">0.00</span></strong>
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong>
+                    ₹<span id="totalAmount">0.00</span>
+                </strong>
+
             </div>
 
         </div>
 
 
+        <!-- =========================
+             ACTION BUTTONS
+        ========================== -->
+
         <div class="action-buttons">
 
-            <button id="clearBtn" class="clear-btn">
+            <button
+                id="clearBtn"
+                class="clear-btn"
+                type="button"
+            >
                 Clear Bill
             </button>
 
-            <button id="whatsappBtn" class="whatsapp-btn">
-                Share on WhatsApp
+
+            <button
+                id="whatsappBtn"
+                class="whatsapp-btn"
+                type="button"
+            >
+                📷 Share Bill Image
             </button>
 
         </div>
 
     </div>
 
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
     <script src="app.js"></script>
+
+
+    <!-- =========================
+         SERVICE WORKER
+    ========================== -->
 
     <script>
 
-    if ("serviceWorker" in navigator) {
+        if ("serviceWorker" in navigator) {
 
-        window.addEventListener("load", () => {
+            window.addEventListener(
+                "load",
+                () => {
 
-            navigator.serviceWorker
-                .register("service-worker.js")
+                    navigator.serviceWorker
+                        .register(
+                            "service-worker.js"
+                        )
 
-                .then(() => {
+                        .then(
+                            registration => {
 
-                    console.log(
-                        "Service Worker registered successfully."
-                    );
+                                console.log(
+                                    "Service Worker registered:",
+                                    registration.scope
+                                );
 
-                })
+                            }
+                        )
 
-                .catch(error => {
+                        .catch(
+                            error => {
 
-                    console.error(
-                        "Service Worker registration failed:",
-                        error
-                    );
+                                console.error(
+                                    "Service Worker registration failed:",
+                                    error
+                                );
 
-                });
+                            }
+                        );
 
-        });
+                }
+            );
 
-    }
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
