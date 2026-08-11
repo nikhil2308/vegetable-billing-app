@@ -1,4 +1,4 @@
-const CACHE_NAME = "mahesh-vegetable-bill-v2";
+const CACHE_NAME = "mahesh-vegetable-bill-v3";
 
 const FILES_TO_CACHE = [
     "./",
