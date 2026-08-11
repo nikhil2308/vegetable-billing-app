@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vegetable Bill</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#198754">
+
+</head>
+<body>
+
+    <div class="app">
+
+        <h1>🥬 Vegetable Bill</h1>
+
+        <div class="form-section">
+
+            <label>Vegetable Name</label>
+            <input
+                type="text"
+                id="vegetableName"
+                placeholder="e.g. Tomato"
+            >
+
+            <label>Quantity</label>
+
+            <div class="quantity-row">
+                <input
+                    type="number"
+                    id="quantity"
+                    placeholder="e.g. 500"
+                    min="0"
+                    step="0.01"
+                >
+
+            <select id="unit">
+            <option value="kg">KG</option>
+            <option value="gram">Grams</option>
+            <option value="bunch">Bunch</option>
+            <option value="piece">Piece</option>
+            <option value="bottle">Bottle</option>
+            <option value="packet">Packet</option>
+            <option value="box">Box</option>
+        </select>
+            </div>
+
+            <label id="priceLabel">Price per KG</label>
+
+            <input
+                type="number"
+                id="price"
+                placeholder="e.g. 60"
+                min="0"
+                step="0.01"
+            >
+
+            <button id="addItemBtn" class="add-btn">
+                + Add Item
+            </button>
+
+        </div>
+
+
+        <div class="bill-section">
+
+            <h2>Bill</h2>
+
+            <div id="billItems">
+                <!-- Items will appear here -->
+            </div>
+
+            <div class="total-section">
+                <span>Total</span>
+                <strong>₹<span id="totalAmount">0.00</span></strong>
+            </div>
+
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button id="clearBtn" class="clear-btn">
+                Clear Bill
+            </button>
+
+            <button id="whatsappBtn" class="whatsapp-btn">
+                Share on WhatsApp
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+
+    if ("serviceWorker" in navigator) {
+
+        window.addEventListener("load", () => {
+
+            navigator.serviceWorker
+                .register("service-worker.js")
+
+                .then(() => {
+
+                    console.log(
+                        "Service Worker registered successfully."
+                    );
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Service Worker registration failed:",
+                        error
+                    );
+
+                });
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

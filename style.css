@@ -1,0 +1,176 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    margin-top: 15px;
+}
+
+input,
+select {
+    width: 100%;
+    height: 48px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 17px;
+}
+
+.quantity-row {
+    display: flex;
+    gap: 10px;
+}
+
+.quantity-row input {
+    flex: 1;
+}
+
+.quantity-row select {
+    width: 120px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    height: 48px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: #198754;
+    color: white;
+}
+
+.bill-section {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.bill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.item-quantity {
+    color: #666;
+    font-size: 14px;
+}
+
+.item-amount {
+    font-weight: bold;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    height: 32px;
+    padding: 0 10px;
+    margin-left: 10px;
+    font-size: 13px;
+}
+
+.total-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    padding: 20px 0;
+}
+
+.total-section strong {
+    font-size: 24px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.clear-btn {
+    flex: 1;
+    background: #6c757d;
+    color: white;
+}
+
+.whatsapp-btn {
+    flex: 2;
+    background: #25D366;
+    color: white;
+}
+
+@media (max-width: 400px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .app {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .clear-btn,
+    .whatsapp-btn {
+        width: 100%;
+    }
+}
