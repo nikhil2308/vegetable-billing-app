@@ -5,41 +5,77 @@ let billItems = [];
 // GET HTML ELEMENTS
 // ==============================
 
-const priceLabel = document.getElementById("priceLabel");
+const priceLabel =
+    document.getElementById("priceLabel");
 
-const vegetableNameInput = document.getElementById("vegetableName");
-const quantityInput = document.getElementById("quantity");
-const unitInput = document.getElementById("unit");
-const priceInput = document.getElementById("price");
+const vegetableNameInput =
+    document.getElementById("vegetableName");
 
-const addItemBtn = document.getElementById("addItemBtn");
-const clearBtn = document.getElementById("clearBtn");
-const whatsappBtn = document.getElementById("whatsappBtn");
+const quantityInput =
+    document.getElementById("quantity");
 
-const billItemsContainer = document.getElementById("billItems");
-const totalAmount = document.getElementById("totalAmount");
+const unitInput =
+    document.getElementById("unit");
+
+const priceInput =
+    document.getElementById("price");
+
+const deliveryChargeInput =
+    document.getElementById("deliveryCharge");
+
+const addItemBtn =
+    document.getElementById("addItemBtn");
+
+const clearBtn =
+    document.getElementById("clearBtn");
+
+const whatsappBtn =
+    document.getElementById("whatsappBtn");
+
+const billItemsContainer =
+    document.getElementById("billItems");
+
+const subtotalAmount =
+    document.getElementById("subtotalAmount");
+
+const totalAmount =
+    document.getElementById("totalAmount");
+
+const itemCount =
+    document.getElementById("itemCount");
 
 
 // ==============================
 // UNIT CHANGE
 // ==============================
 
-unitInput.addEventListener("change", function () {
+unitInput.addEventListener(
+    "change",
+    function () {
 
-    if (unitInput.value === "kg" || unitInput.value === "gram") {
+        if (
+            unitInput.value === "kg" ||
+            unitInput.value === "gram"
+        ) {
 
-        priceLabel.textContent = "Price per KG";
-        priceInput.placeholder = "e.g. 60";
+            priceLabel.textContent =
+                "Price per KG";
 
-    } else {
+            priceInput.placeholder =
+                "e.g. 60";
 
-        priceLabel.textContent =
-            "Price per " + getUnitName(unitInput.value);
+        } else {
 
-        priceInput.placeholder = "e.g. 20";
+            priceLabel.textContent =
+                "Price per " +
+                getUnitName(unitInput.value);
+
+            priceInput.placeholder =
+                "e.g. 20";
+        }
+
     }
-
-});
+);
 
 
 // ==============================
@@ -51,11 +87,17 @@ function getUnitName(unit) {
     const unitNames = {
 
         kg: "KG",
-        gram: "Gram",
+
+        gram: "KG",
+
         bunch: "Bunch",
+
         piece: "Piece",
+
         bottle: "Bottle",
+
         packet: "Packet",
+
         box: "Box"
 
     };
@@ -65,37 +107,41 @@ function getUnitName(unit) {
 
 
 // ==============================
-// ADD ITEM BUTTON
-// ==============================
-
-addItemBtn.addEventListener("click", addItem);
-
-
-// ==============================
 // ADD ITEM
 // ==============================
 
+addItemBtn.addEventListener(
+    "click",
+    addItem
+);
+
+
 function addItem() {
 
-    const name = vegetableNameInput.value.trim();
+    const name =
+        vegetableNameInput.value.trim();
 
     const quantity =
-        parseFloat(quantityInput.value);
+        parseFloat(
+            quantityInput.value
+        );
 
     const unit =
         unitInput.value;
 
     const price =
-        parseFloat(priceInput.value);
+        parseFloat(
+            priceInput.value
+        );
 
 
-    // ==============================
-    // VALIDATION
-    // ==============================
+    // Validation
 
     if (name === "") {
 
-        alert("Please enter vegetable name.");
+        alert(
+            "Please enter vegetable/item name."
+        );
 
         vegetableNameInput.focus();
 
@@ -103,9 +149,14 @@ function addItem() {
     }
 
 
-    if (isNaN(quantity) || quantity <= 0) {
+    if (
+        isNaN(quantity) ||
+        quantity <= 0
+    ) {
 
-        alert("Please enter a valid quantity.");
+        alert(
+            "Please enter a valid quantity."
+        );
 
         quantityInput.focus();
 
@@ -113,9 +164,14 @@ function addItem() {
     }
 
 
-    if (isNaN(price) || price < 0) {
+    if (
+        isNaN(price) ||
+        price < 0
+    ) {
 
-        alert("Please enter a valid price.");
+        alert(
+            "Please enter a valid price."
+        );
 
         priceInput.focus();
 
@@ -130,23 +186,13 @@ function addItem() {
     let amount;
 
 
-    // KG and Grams
-    // Price is calculated per KG
-
     if (unit === "gram") {
 
         amount =
-            (quantity / 1000) * price;
-
-    } else if (unit === "kg") {
-
-        amount =
-            quantity * price;
+            (quantity / 1000) *
+            price;
 
     } else {
-
-        // Bunch / Piece / Bottle /
-        // Packet / Box
 
         amount =
             quantity * price;
@@ -172,8 +218,6 @@ function addItem() {
     };
 
 
-    // Add to bill
-
     billItems.push(item);
 
 
@@ -182,9 +226,7 @@ function addItem() {
     displayBill();
 
 
-    // ==============================
-    // CLEAR INPUTS
-    // ==============================
+    // Clear fields
 
     vegetableNameInput.value = "";
 
@@ -206,162 +248,215 @@ function displayBill() {
     billItemsContainer.innerHTML = "";
 
 
-    let total = 0;
+    if (billItems.length === 0) {
 
-
-    billItems.forEach((item, index) => {
-
-        total += item.amount;
-
-
-        // Main item container
-
-        const billItem =
-            document.createElement("div");
-
-        billItem.className =
-            "bill-item";
-
-
-        // ==============================
-        // ITEM DETAILS
-        // ==============================
-
-        const details =
-            document.createElement("div");
-
-        details.className =
-            "item-details";
-
-
-        // Vegetable name
-
-        const name =
-            document.createElement("span");
-
-        name.className =
-            "item-name";
-
-        name.textContent =
-            item.name;
-
-
-        // Quantity + price
-
-        const quantity =
-            document.createElement("span");
-
-        quantity.className =
-            "item-quantity";
-
-
-        let unitText;
-
-
-        if (item.unit === "kg") {
-
-            unitText = "kg";
-
-        } else if (item.unit === "gram") {
-
-            unitText = "g";
-
-        } else if (item.unit === "bunch") {
-
-            unitText = "bunch";
-
-        } else if (item.unit === "piece") {
-
-            unitText = "piece";
-
-        } else if (item.unit === "bottle") {
-
-            unitText = "bottle";
-
-        } else if (item.unit === "packet") {
-
-            unitText = "packet";
-
-        } else if (item.unit === "box") {
-
-            unitText = "box";
-
-        }
-
-
-        // Display price correctly
-
-        let priceText;
-
-
-        if (
-            item.unit === "kg" ||
-            item.unit === "gram"
-        ) {
-
-            priceText =
-                `₹${item.price}/kg`;
-
-        } else {
-
-            priceText =
-                `₹${item.price}/${unitText}`;
-
-        }
-
-
-        quantity.textContent =
-            `${item.quantity} ${unitText} × ${priceText}`;
-
-
-        details.appendChild(name);
-
-        details.appendChild(quantity);
-
-
-        // ==============================
-        // AMOUNT SECTION
-        // ==============================
-
-        const amountSection =
-            document.createElement("div");
-
-
-        amountSection.innerHTML = `
-
-            <span class="item-amount">
-                ₹${item.amount.toFixed(2)}
-            </span>
-
-            <button
-                class="delete-btn"
-                onclick="deleteItem(${index})">
-
-                Delete
-
-            </button>
-
+        billItemsContainer.innerHTML = `
+            <div class="empty-bill">
+                No items added yet
+            </div>
         `;
+    }
 
 
-        // Add everything
-
-        billItem.appendChild(details);
-
-        billItem.appendChild(amountSection);
+    let subtotal = 0;
 
 
-        billItemsContainer.appendChild(billItem);
+    billItems.forEach(
+        (item, index) => {
 
-    });
+            subtotal +=
+                item.amount;
+
+
+            const billItem =
+                document.createElement("div");
+
+
+            billItem.className =
+                "bill-item";
+
+
+            // Details
+
+            const details =
+                document.createElement("div");
+
+
+            details.className =
+                "item-details";
+
+
+            // Name
+
+            const name =
+                document.createElement("span");
+
+
+            name.className =
+                "item-name";
+
+
+            name.textContent =
+                item.name;
+
+
+            // Quantity
+
+            const quantity =
+                document.createElement("span");
+
+
+            quantity.className =
+                "item-quantity";
+
+
+            const unitText =
+                getDisplayUnit(
+                    item.unit
+                );
+
+
+            let priceText;
+
+
+            if (
+                item.unit === "kg" ||
+                item.unit === "gram"
+            ) {
+
+                priceText =
+                    `₹${item.price}/kg`;
+
+            } else {
+
+                priceText =
+                    `₹${item.price}/${unitText}`;
+            }
+
+
+            quantity.textContent =
+                `${item.quantity} ${unitText} × ${priceText}`;
+
+
+            details.appendChild(name);
+
+            details.appendChild(quantity);
+
+
+            // Amount
+
+            const amountSection =
+                document.createElement("div");
+
+
+            amountSection.innerHTML = `
+
+                <span class="item-amount">
+                    ₹${item.amount.toFixed(2)}
+                </span>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteItem(${index})">
+
+                    Delete
+
+                </button>
+
+            `;
+
+
+            billItem.appendChild(details);
+
+            billItem.appendChild(
+                amountSection
+            );
+
+
+            billItemsContainer.appendChild(
+                billItem
+            );
+
+        }
+    );
 
 
     // ==============================
-    // UPDATE TOTAL
+    // DELIVERY CHARGE
     // ==============================
+
+    let delivery =
+        parseFloat(
+            deliveryChargeInput.value
+        );
+
+
+    if (
+        isNaN(delivery) ||
+        delivery < 0
+    ) {
+
+        delivery = 0;
+    }
+
+
+    // ==============================
+    // FINAL TOTAL
+    // ==============================
+
+    const total =
+        subtotal + delivery;
+
+
+    subtotalAmount.textContent =
+        subtotal.toFixed(2);
+
 
     totalAmount.textContent =
         total.toFixed(2);
+
+
+    itemCount.textContent =
+        `${billItems.length} ${
+            billItems.length === 1
+                ? "item"
+                : "items"
+        }`;
+}
+
+
+// ==============================
+// GET DISPLAY UNIT
+// ==============================
+
+function getDisplayUnit(unit) {
+
+    switch (unit) {
+
+        case "kg":
+            return "KG";
+
+        case "gram":
+            return "g";
+
+        case "bunch":
+            return "Bunch";
+
+        case "piece":
+            return "Pc";
+
+        case "bottle":
+            return "Bottle";
+
+        case "packet":
+            return "Pkt";
+
+        case "box":
+            return "Box";
+
+        default:
+            return unit;
+    }
 }
 
 
@@ -371,40 +466,63 @@ function displayBill() {
 
 function deleteItem(index) {
 
-    billItems.splice(index, 1);
+    billItems.splice(
+        index,
+        1
+    );
 
     displayBill();
 }
 
 
 // ==============================
+// DELIVERY CHARGE CHANGE
+// ==============================
+
+deliveryChargeInput.addEventListener(
+    "input",
+    displayBill
+);
+
+
+// ==============================
 // CLEAR BILL
 // ==============================
 
-clearBtn.addEventListener("click", function () {
+clearBtn.addEventListener(
+    "click",
+    function () {
 
-    if (billItems.length === 0) {
+        if (
+            billItems.length === 0 &&
+            deliveryChargeInput.value === ""
+        ) {
 
-        return;
+            return;
+        }
+
+
+        const confirmClear =
+            confirm(
+                "Clear the entire bill?"
+            );
+
+
+        if (confirmClear) {
+
+            billItems = [];
+
+            deliveryChargeInput.value = "";
+
+            displayBill();
+        }
+
     }
-
-
-    const confirmClear =
-        confirm("Clear the entire bill?");
-
-
-    if (confirmClear) {
-
-        billItems = [];
-
-        displayBill();
-    }
-
-});
+);
 
 
 // ==============================
-// WHATSAPP BUTTON
+// WHATSAPP
 // ==============================
 
 whatsappBtn.addEventListener(
@@ -425,148 +543,115 @@ function shareOnWhatsApp() {
     }
 
     // ==============================
-    // GET CURRENT DATE
+    // DATE
     // ==============================
 
     const today = new Date();
 
     const day = String(today.getDate()).padStart(2, "0");
-
     const month = String(today.getMonth() + 1).padStart(2, "0");
-
     const year = today.getFullYear();
 
     const currentDate = `${day}-${month}-${year}`;
 
 
     // ==============================
-    // START WHATSAPP MESSAGE
+    // SUBTOTAL
+    // ==============================
+
+    const subtotal = billItems.reduce(
+        (sum, item) => sum + item.amount,
+        0
+    );
+
+
+    // ==============================
+    // DELIVERY CHARGE
+    // ==============================
+
+    let delivery = parseFloat(
+        deliveryChargeInput.value
+    );
+
+    if (isNaN(delivery) || delivery < 0) {
+        delivery = 0;
+    }
+
+
+    // ==============================
+    // FINAL TOTAL
+    // ==============================
+
+    const total = subtotal + delivery;
+
+
+    // ==============================
+    // START MESSAGE
     // ==============================
 
     let message = "```\n";
 
-
-    // ==============================
-    // SHOP HEADER
-    // ==============================
-
     message += "MAHESH FRUITS AND VEGETABLES\n";
+    message += "VEGETABLE BILL\n";
+    message += `Date: ${currentDate}\n`;
 
-    message += "========================================\n";
-
-    message += "             BILL\n";
-
-    message += "========================================\n";
-
-    message += `Date: ${currentDate}\n\n`;
+    message += "--------------------------------\n";
 
 
     // ==============================
     // TABLE HEADER
     // ==============================
 
-    message +=
-        "| ITEM         | QTY      | RATE     | AMOUNT   |\n";
-
-    message +=
-        "|--------------|----------|----------|----------|\n";
+    message += "Item       Qty       Amount\n";
+    message += "--------------------------------\n";
 
 
     // ==============================
-    // TABLE ROWS
+    // ITEMS
     // ==============================
 
     billItems.forEach(item => {
 
-        let unitText;
+        const unitText = getWhatsAppUnit(item.unit);
 
-        switch (item.unit) {
+        // Keep item name short for phone screens
+        const itemName = item.name
+            .substring(0, 9)
+            .padEnd(10);
 
-            case "kg":
-                unitText = "KG";
-                break;
+        const quantityText = `${item.quantity} ${unitText}`
+            .padEnd(9);
 
-            case "gram":
-                unitText = "G";
-                break;
+        const amountText = `₹${item.amount.toFixed(2)}`;
 
-            case "bunch":
-                unitText = "Bunch";
-                break;
-
-            case "piece":
-                unitText = "Pc";
-                break;
-
-            case "bottle":
-                unitText = "Bottle";
-                break;
-
-            case "packet":
-                unitText = "Pkt";
-                break;
-
-            case "box":
-                unitText = "Box";
-                break;
-
-            default:
-                unitText = item.unit;
-        }
-
-
-        // Item name
-        const itemName =
-            item.name.substring(0, 12);
-
-
-        // Quantity
-        const quantityText =
-            `${item.quantity} ${unitText}`;
-
-
-        // Rate
-        const rateText =
-            `₹${item.price.toFixed(2)}`;
-
-
-        // Amount
-        const amountText =
-            `₹${item.amount.toFixed(2)}`;
-
-
-        // Table row
         message +=
-            `| ${itemName.padEnd(12)} ` +
-            `| ${quantityText.padEnd(8)} ` +
-            `| ${rateText.padEnd(8)} ` +
-            `| ${amountText.padEnd(8)} |\n`;
-
+            `${itemName}${quantityText}${amountText}\n`;
     });
 
 
     // ==============================
-    // TOTAL
+    // SUMMARY
     // ==============================
 
-    const total =
-        billItems.reduce(
-            (sum, item) => sum + item.amount,
-            0
-        );
-
+    message += "--------------------------------\n";
 
     message +=
-        "|--------------|----------|----------|----------|\n";
+        `Subtotal                 ₹${subtotal.toFixed(2)}\n`;
 
+
+    if (delivery > 0) {
+
+        message +=
+            `Delivery                 ₹${delivery.toFixed(2)}\n`;
+    }
+
+
+    message += "--------------------------------\n";
 
     message +=
-        `| TOTAL        |          |          | ₹${total.toFixed(2).padEnd(8)} |\n`;
+        `TOTAL                    ₹${total.toFixed(2)}\n`;
 
-
-    message +=
-        "========================================\n\n";
-
+    message += "--------------------------------\n\n";
 
     message += "Thank you!";
 
@@ -585,9 +670,43 @@ function shareOnWhatsApp() {
     const whatsappURL =
         `https://wa.me/?text=${encodeURIComponent(message)}`;
 
-
     window.open(
         whatsappURL,
         "_blank"
     );
+}
+
+
+// ==============================
+// WHATSAPP UNIT
+// ==============================
+
+function getWhatsAppUnit(unit) {
+
+    switch (unit) {
+
+        case "kg":
+            return "KG";
+
+        case "gram":
+            return "g";
+
+        case "bunch":
+            return "Bun";
+
+        case "piece":
+            return "Pc";
+
+        case "bottle":
+            return "Bot";
+
+        case "packet":
+            return "Pkt";
+
+        case "box":
+            return "Box";
+
+        default:
+            return unit;
+    }
 }
