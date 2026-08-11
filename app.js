@@ -558,22 +558,13 @@ async function shareBillImage() {
 
     if (billItems.length === 0) {
 
-        alert(
-            "Please add at least one item."
-        );
+        alert("Please add at least one item.");
 
         return;
-
     }
-
-
-    // ==============================
-    // BUTTON STATE
-    // ==============================
 
     const originalButtonText =
         whatsappBtn.textContent;
-
 
     whatsappBtn.disabled = true;
 
@@ -587,25 +578,16 @@ async function shareBillImage() {
         // DATE
         // ==============================
 
-        const today =
-            new Date();
-
+        const today = new Date();
 
         const day =
-            String(
-                today.getDate()
-            ).padStart(2, "0");
-
+            String(today.getDate()).padStart(2, "0");
 
         const month =
-            String(
-                today.getMonth() + 1
-            ).padStart(2, "0");
-
+            String(today.getMonth() + 1).padStart(2, "0");
 
         const year =
             today.getFullYear();
-
 
         const currentDate =
             `${day}-${month}-${year}`;
@@ -632,14 +614,11 @@ async function shareBillImage() {
                 deliveryChargeInput.value
             );
 
-
         if (
             isNaN(delivery) ||
             delivery < 0
         ) {
-
             delivery = 0;
-
         }
 
 
@@ -656,15 +635,10 @@ async function shareBillImage() {
         // ==============================
 
         const canvas =
-            document.createElement(
-                "canvas"
-            );
-
+            document.createElement("canvas");
 
         const ctx =
-            canvas.getContext(
-                "2d"
-            );
+            canvas.getContext("2d");
 
 
         const width = 900;
@@ -676,9 +650,7 @@ async function shareBillImage() {
         const itemRowHeight = 70;
 
         const summaryHeight =
-            delivery > 0
-                ? 270
-                : 210;
+            delivery > 0 ? 270 : 210;
 
         const footerHeight = 100;
 
@@ -694,20 +666,16 @@ async function shareBillImage() {
             footerHeight;
 
 
-        canvas.width =
-            width;
+        canvas.width = width;
 
-        canvas.height =
-            height;
+        canvas.height = height;
 
 
         // ==============================
-        // WHITE BACKGROUND
+        // BACKGROUND
         // ==============================
 
-        ctx.fillStyle =
-            "#ffffff";
-
+        ctx.fillStyle = "#ffffff";
 
         ctx.fillRect(
             0,
@@ -721,9 +689,7 @@ async function shareBillImage() {
         // HEADER
         // ==============================
 
-        ctx.fillStyle =
-            "#198754";
-
+        ctx.fillStyle = "#198754";
 
         ctx.fillRect(
             0,
@@ -733,17 +699,13 @@ async function shareBillImage() {
         );
 
 
-        ctx.fillStyle =
-            "#ffffff";
+        ctx.fillStyle = "#ffffff";
 
-
-        ctx.textAlign =
-            "center";
+        ctx.textAlign = "center";
 
 
         ctx.font =
             "bold 38px Arial";
-
 
         ctx.fillText(
             "MAHESH FRUITS AND VEGETABLES",
@@ -755,7 +717,6 @@ async function shareBillImage() {
         ctx.font =
             "bold 30px Arial";
 
-
         ctx.fillText(
             "VEGETABLE BILL",
             width / 2,
@@ -765,7 +726,6 @@ async function shareBillImage() {
 
         ctx.font =
             "22px Arial";
-
 
         ctx.fillText(
             `Date: ${currentDate}`,
@@ -778,13 +738,10 @@ async function shareBillImage() {
         // TABLE HEADER
         // ==============================
 
-        let y =
-            headerHeight;
+        let y = headerHeight;
 
 
-        ctx.fillStyle =
-            "#f1f5f3";
-
+        ctx.fillStyle = "#f1f5f3";
 
         ctx.fillRect(
             0,
@@ -794,17 +751,13 @@ async function shareBillImage() {
         );
 
 
-        ctx.fillStyle =
-            "#222222";
-
+        ctx.fillStyle = "#222222";
 
         ctx.font =
             "bold 23px Arial";
 
 
-        ctx.textAlign =
-            "left";
-
+        ctx.textAlign = "left";
 
         ctx.fillText(
             "ITEM",
@@ -813,9 +766,7 @@ async function shareBillImage() {
         );
 
 
-        ctx.textAlign =
-            "center";
-
+        ctx.textAlign = "center";
 
         ctx.fillText(
             "QTY",
@@ -824,9 +775,7 @@ async function shareBillImage() {
         );
 
 
-        ctx.textAlign =
-            "right";
-
+        ctx.textAlign = "right";
 
         ctx.fillText(
             "AMOUNT",
@@ -835,53 +784,20 @@ async function shareBillImage() {
         );
 
 
-        // Header bottom line
-
-        ctx.strokeStyle =
-            "#cccccc";
-
-
-        ctx.lineWidth = 2;
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-            40,
-            y + tableHeaderHeight
-        );
-
-
-        ctx.lineTo(
-            width - 40,
-            y + tableHeaderHeight
-        );
-
-
-        ctx.stroke();
-
-
-        y +=
-            tableHeaderHeight;
+        y += tableHeaderHeight;
 
 
         // ==============================
-        // BILL ITEMS
+        // ITEMS
         // ==============================
 
         billItems.forEach(
             (item, index) => {
 
-                // Alternate row
-
-                if (
-                    index % 2 === 0
-                ) {
+                if (index % 2 === 0) {
 
                     ctx.fillStyle =
                         "#fafafa";
-
 
                     ctx.fillRect(
                         0,
@@ -889,19 +805,14 @@ async function shareBillImage() {
                         width,
                         itemRowHeight
                     );
-
                 }
 
-
-                // Item
 
                 ctx.fillStyle =
                     "#222222";
 
-
                 ctx.font =
                     "23px Arial";
-
 
                 ctx.textAlign =
                     "left";
@@ -920,7 +831,6 @@ async function shareBillImage() {
                             0,
                             24
                         ) + "...";
-
                 }
 
 
@@ -943,12 +853,8 @@ async function shareBillImage() {
                     );
 
 
-                const quantityText =
-                    `${item.quantity} ${unitText}`;
-
-
                 ctx.fillText(
-                    quantityText,
+                    `${item.quantity} ${unitText}`,
                     500,
                     y + 44
                 );
@@ -958,7 +864,6 @@ async function shareBillImage() {
 
                 ctx.textAlign =
                     "right";
-
 
                 ctx.font =
                     "bold 23px Arial";
@@ -976,30 +881,24 @@ async function shareBillImage() {
                 ctx.strokeStyle =
                     "#e5e5e5";
 
-
                 ctx.lineWidth = 1;
 
-
                 ctx.beginPath();
-
 
                 ctx.moveTo(
                     40,
                     y + itemRowHeight
                 );
 
-
                 ctx.lineTo(
                     width - 40,
                     y + itemRowHeight
                 );
 
-
                 ctx.stroke();
 
 
-                y +=
-                    itemRowHeight;
+                y += itemRowHeight;
 
             }
         );
@@ -1015,10 +914,8 @@ async function shareBillImage() {
         ctx.fillStyle =
             "#444444";
 
-
         ctx.font =
             "24px Arial";
-
 
         ctx.textAlign =
             "left";
@@ -1045,13 +942,10 @@ async function shareBillImage() {
         y += 55;
 
 
-        // Delivery
-
         if (delivery > 0) {
 
             ctx.textAlign =
                 "left";
-
 
             ctx.fillText(
                 "Delivery Charge",
@@ -1063,7 +957,6 @@ async function shareBillImage() {
             ctx.textAlign =
                 "right";
 
-
             ctx.fillText(
                 `₹${delivery.toFixed(2)}`,
                 845,
@@ -1072,12 +965,11 @@ async function shareBillImage() {
 
 
             y += 55;
-
         }
 
 
         // ==============================
-        // TOTAL BOX
+        // TOTAL
         // ==============================
 
         ctx.fillStyle =
@@ -1098,7 +990,6 @@ async function shareBillImage() {
 
         ctx.font =
             "bold 30px Arial";
-
 
         ctx.textAlign =
             "left";
@@ -1132,10 +1023,8 @@ async function shareBillImage() {
         ctx.fillStyle =
             "#666666";
 
-
         ctx.textAlign =
             "center";
-
 
         ctx.font =
             "22px Arial";
@@ -1149,26 +1038,23 @@ async function shareBillImage() {
 
 
         // ==============================
-        // CREATE PNG
+        // CREATE IMAGE
         // ==============================
 
         const blob =
-            await canvasToBlob(
-                canvas
-            );
+            await canvasToBlob(canvas);
 
 
         if (!blob) {
 
             throw new Error(
-                "Unable to create bill image."
+                "Could not create image."
             );
-
         }
 
 
         // ==============================
-        // CREATE FILE
+        // CREATE IMAGE FILE
         // ==============================
 
         const file =
@@ -1182,7 +1068,7 @@ async function shareBillImage() {
 
 
         // ==============================
-        // ANDROID / BROWSER SHARE
+        // SHARE IMAGE ONLY
         // ==============================
 
         if (
@@ -1193,46 +1079,34 @@ async function shareBillImage() {
             })
         ) {
 
+            /*
+             * IMPORTANT:
+             *
+             * Do NOT send text here.
+             * We are sharing ONLY the PNG.
+             */
+
             await navigator.share({
-
-                title:
-                    "Mahesh Fruits and Vegetables",
-
-                text:
-                    "Vegetable Bill",
 
                 files: [file]
 
             });
 
-        } else {
-
-            // ==============================
-            // FALLBACK
-            // ==============================
-
-            const imageURL =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const newWindow =
-                window.open(
-                    imageURL,
-                    "_blank"
-                );
-
-
-            if (!newWindow) {
-
-                throw new Error(
-                    "Please allow pop-ups to view the bill image."
-                );
-
-            }
-
+            return;
         }
+
+
+        // ==============================
+        // FALLBACK
+        // ==============================
+
+        const imageURL =
+            URL.createObjectURL(blob);
+
+
+        window.location.href =
+            imageURL;
+
 
     } catch (error) {
 
@@ -1242,16 +1116,13 @@ async function shareBillImage() {
         );
 
 
-        // Don't show an error when
-        // user simply cancelled sharing
-
         if (
             error.name !==
             "AbortError"
         ) {
 
             alert(
-                "Unable to share the bill image. Please try again."
+                "Your phone does not support direct image sharing. Please try opening the bill image and share it from there."
             );
 
         }
@@ -1265,7 +1136,6 @@ async function shareBillImage() {
             "📷 Share Bill Image";
 
     }
-
 }
 
 

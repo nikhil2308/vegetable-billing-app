@@ -1,5 +1,5 @@
 const CACHE_NAME =
-    "mahesh-vegetable-bill-v3";
+    "mahesh-vegetable-bill-v4";
 
 
 const FILES_TO_CACHE = [
