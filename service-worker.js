@@ -1,19 +1,11 @@
-const CACHE_NAME =
-    "mahesh-vegetable-bill-v4";
-
+const CACHE_NAME = "mahesh-vegetable-bill-v5";
 
 const FILES_TO_CACHE = [
-
     "./",
-
     "./index.html",
-
     "./style.css",
-
     "./app.js",
-
     "./manifest.json"
-
 ];
 
 
@@ -21,105 +13,107 @@ const FILES_TO_CACHE = [
 // INSTALL
 // ==============================
 
-self.addEventListener(
-    "install",
-    event => {
+self.addEventListener("install", event => {
 
-        event.waitUntil(
+    event.waitUntil(
 
-            caches
-                .open(CACHE_NAME)
-                .then(
-                    cache => {
+        caches.open(CACHE_NAME)
+            .then(cache => {
 
-                        return cache.addAll(
-                            FILES_TO_CACHE
-                        );
+                return cache.addAll(
+                    FILES_TO_CACHE
+                );
 
-                    }
-                )
+            })
 
-        );
+    );
 
+    self.skipWaiting();
 
-        self.skipWaiting();
-
-    }
-);
+});
 
 
 // ==============================
 // ACTIVATE
 // ==============================
 
-self.addEventListener(
-    "activate",
-    event => {
+self.addEventListener("activate", event => {
 
-        event.waitUntil(
+    event.waitUntil(
 
-            caches
-                .keys()
-                .then(
-                    cacheNames => {
+        caches.keys()
+            .then(cacheNames => {
 
-                        return Promise.all(
+                return Promise.all(
 
-                            cacheNames
-                                .filter(
-                                    name =>
-                                        name !==
-                                        CACHE_NAME
-                                )
-                                .map(
-                                    name =>
-                                        caches.delete(
-                                            name
-                                        )
-                                )
+                    cacheNames
+                        .filter(
+                            name =>
+                                name !== CACHE_NAME
+                        )
+                        .map(
+                            name =>
+                                caches.delete(name)
+                        )
 
-                        );
+                );
 
-                    }
-                )
+            })
 
-        );
+    );
 
+    self.clients.claim();
 
-        self.clients.claim();
-
-    }
-);
+});
 
 
 // ==============================
 // FETCH
 // ==============================
 
-self.addEventListener(
-    "fetch",
-    event => {
+self.addEventListener("fetch", event => {
 
-        event.respondWith(
+    // Only handle GET requests
+    if (event.request.method !== "GET") {
+        return;
+    }
 
-            caches
-                .match(
-                    event.request
-                )
-                .then(
-                    response => {
+    event.respondWith(
 
-                        return (
-                            response ||
-                            fetch(
-                                event.request
-                            )
+        fetch(event.request)
+
+            .then(response => {
+
+                // Save latest version in cache
+
+                const responseClone =
+                    response.clone();
+
+                caches.open(CACHE_NAME)
+                    .then(cache => {
+
+                        cache.put(
+                            event.request,
+                            responseClone
                         );
 
-                    }
-                )
+                    });
 
-        );
+                return response;
 
-    }
-);
+            })
+
+            .catch(() => {
+
+                // If internet is unavailable,
+                // use cached version
+
+                return caches.match(
+                    event.request
+                );
+
+            })
+
+    );
+
+});
