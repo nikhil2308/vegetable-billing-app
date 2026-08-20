@@ -106,7 +106,13 @@ function getUnitName(unit) {
     return unitNames[unit] || unit;
 }
 
+function toProperCase(text) {
 
+    return text
+        .toLowerCase()
+        .replace(/\b\w/g, char => char.toUpperCase());
+
+}
 // ==============================
 // ADD ITEM
 // ==============================
@@ -120,7 +126,9 @@ addItemBtn.addEventListener(
 function addItem() {
 
     const name =
-        vegetableNameInput.value.trim();
+    toProperCase(
+        vegetableNameInput.value.trim()
+    );
 
     const quantity =
         parseFloat(
@@ -718,7 +726,7 @@ async function shareBillImage() {
             "bold 30px Arial";
 
         ctx.fillText(
-            "VEGETABLE BILL",
+            "BILL",
             width / 2,
             115
         );
